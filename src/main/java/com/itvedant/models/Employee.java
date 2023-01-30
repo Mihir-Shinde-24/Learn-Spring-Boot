@@ -50,14 +50,13 @@ public class Employee {
 	{
 		this.email = email;
 	}
-
-	public boolean equals(Employee newEmp)
+	
+	@Override
+	public boolean equals(Object obj)
 	{
-		if (this.getId() == newEmp.getId())
-		{
-			return true;
-		}
-		return false;
+		Employee newEmp = (Employee) obj;
+		
+		return this.getId() == newEmp.getId();
 	}
 
 }

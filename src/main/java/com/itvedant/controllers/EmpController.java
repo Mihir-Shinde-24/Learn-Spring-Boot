@@ -40,8 +40,7 @@ public class EmpController {
 		return this.service.updateEmployee(newEmp);
 	}
 
-	// Delete an Employee
-
+	// 4. Delete an Employee
 	@DeleteMapping("/deleteemp")
 	public List<Employee> deleteEmployee(@RequestBody Employee delEmp)
 	{
