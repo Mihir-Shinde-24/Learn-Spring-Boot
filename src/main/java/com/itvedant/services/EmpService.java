@@ -30,13 +30,15 @@ public class EmpService implements Services {
 	@Override
 	public List<Employee> updateEmployee(Employee newEmp)
 	{
-		return null;
+		repo.save(newEmp);
+		return repo.findAll();
 	}
 
 	@Override
 	public List<Employee> deleteEmployee(Employee delEmp)
 	{
-		return null;
+		repo.delete(delEmp);
+		return repo.findAll();
 	}
 
 }
