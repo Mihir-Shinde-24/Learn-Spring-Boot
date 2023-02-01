@@ -26,15 +26,9 @@ public class Employee {
 	@Column
 	private String email;
 
-	// constructor
-	public Employee(int id, String firstName, String email)
-	{
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.email = email;
-	}
-
+	// No-Arg Constructor
+	public Employee(){	}
+	
 	// getters & Setters
 	public int getId()
 	{
@@ -66,11 +60,6 @@ public class Employee {
 		this.email = email;
 	}
 
-	public Employee()
-	{
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public boolean equals(Object obj)
