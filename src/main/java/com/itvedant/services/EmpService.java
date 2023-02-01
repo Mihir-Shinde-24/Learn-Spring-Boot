@@ -19,11 +19,13 @@ public class EmpService implements Services {
 	@Override
 	public List<Employee> getEmployees()
 	{
-		if (repo.findAll().isEmpty())
+		List<Employee> employees = repo.findAll();
+
+		if (!employees.isEmpty())
 		{
-			return null;
+			return employees;
 		}
-		return repo.findAll();
+		return null;
 	}
 
 	@Override
@@ -61,6 +63,43 @@ public class EmpService implements Services {
 		{
 			repo.delete(delEmp);
 			return repo.findAll();
+		}
+		return null;
+	}
+
+	@Override
+	public Employee getEmployeeById(int id)
+	{
+		Optional<Employee> employee = repo.findById(id);
+
+		if (employee.isPresent())
+		{
+			return employee.get();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Employee> getEmployeesByFirstName(String firstName)
+	{
+		List<Employee> employees = repo.findByFirstName(firstName);
+
+		if (!employees.isEmpty())
+		{
+			return employees;
+		}
+		return null;
+	}
+
+	@Override
+	public List<Employee> getEmployeesByFirstNameAndEmail(String firstName, String email)
+	{
+		List<Employee> employees = repo.findByFirstNameAndEmail(firstName, email);
+
+		if (!employees.isEmpty())
+		{
+			return employees;
 		}
 		return null;
 	}

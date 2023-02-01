@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itvedant.models.Employee;
@@ -53,5 +55,32 @@ public class EmpController {
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 	
+	
+	
+	/* Custom Operations */
+	
+	// 1. Find Employee by id
+	@GetMapping("/findbyid/{id}")
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id)
+	{
+		Employee employee = service.getEmployeeById(id);
+		return ResponseEntity.status(employee != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employee);
+	}
+	
+	// 2. Find Employee by firstName
+	@GetMapping("/findbyfirstname/{firstname}")
+	public ResponseEntity<List<Employee>> getEmployeesByFirstName(@PathVariable("firstname") String firstName)
+	{
+		List<Employee> employees = service.getEmployeesByFirstName(firstName);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
+	
+	// 3. Find Employee by firstName & email using Query Parameter
+	@GetMapping("/findbyfnameandemail")
+	public ResponseEntity<List<Employee>> getEmployeesByFirstNameAndEmail(@RequestParam("firstName") String firstName, @RequestParam("email") String email)
+	{
+		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName,email);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
 
 }
