@@ -60,13 +60,4 @@ public class Employee {
 		this.email = email;
 	}
 
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		Employee newEmp = (Employee) obj;
-
-		return this.getId() == newEmp.getId();
-	}
-
 }

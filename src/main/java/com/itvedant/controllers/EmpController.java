@@ -3,6 +3,8 @@ package com.itvedant.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,32 +21,37 @@ public class EmpController {
 	@Autowired
 	Services service;
 
-	// 1. Get all the employees in Response Body
+	// 1. Fetch Employees
 	@GetMapping("/getemp")
-	public List<Employee> getEmployees()
+	public ResponseEntity<List<Employee>> getEmployees()
 	{
-		return this.service.getEmployees();
+		List<Employee> employees = service.getEmployees();			
+		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.NOT_FOUND).body(employees);
 	}
 
-	// 2. To Add a new employee
+	// 2. Add Employee
 	@PostMapping("/addemp")
-	public List<Employee> addEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmp)
 	{
-		return this.service.addEmployee(newEmp);
+		List<Employee> employees = service.addEmployee(newEmp);			
+		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
-	// 3. To Update details of a particular Employee
+	// 3. Update Employee
 	@PutMapping("/updateemp")
-	public List<Employee> updateEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee newEmp)
 	{
-		return this.service.updateEmployee(newEmp);
+		 List<Employee> employees = service.updateEmployee(newEmp);
+		 return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
-	// 4. Delete an Employee
+	// 4. Delete Employee
 	@DeleteMapping("/deleteemp")
-	public List<Employee> deleteEmployee(@RequestBody Employee delEmp)
+	public ResponseEntity<List<Employee>> deleteEmployee(@RequestBody Employee delEmp)
 	{
-		return this.service.deleteEmployee(delEmp);
+		List<Employee> employees = service.deleteEmployee(delEmp);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
+	
 
 }

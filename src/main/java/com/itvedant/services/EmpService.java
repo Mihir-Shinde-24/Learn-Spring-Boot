@@ -1,14 +1,16 @@
 package com.itvedant.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.itvedant.models.Employee;
 import com.itvedant.repositories.EmpRepository;
 
 //Service: In service class, we will apply the actual business logic
-@Service  
+@Service
 public class EmpService implements Services {
 
 	@Autowired
@@ -17,28 +19,50 @@ public class EmpService implements Services {
 	@Override
 	public List<Employee> getEmployees()
 	{
+		if (repo.findAll().isEmpty())
+		{
+			return null;
+		}
 		return repo.findAll();
 	}
 
 	@Override
 	public List<Employee> addEmployee(Employee newEmp)
 	{
-		repo.save(newEmp);
-		return repo.findAll();
+		if (newEmp.getFirstName() != null || newEmp.getEmail() != null)
+		{
+			repo.save(newEmp);
+			return repo.findAll();
+		}
+
+		return null;
 	}
 
 	@Override
 	public List<Employee> updateEmployee(Employee newEmp)
 	{
-		repo.save(newEmp);
-		return repo.findAll();
+		Optional<Employee> employee = repo.findById(newEmp.getId());
+
+		if (employee.isPresent())
+		{
+			repo.save(newEmp);
+			return repo.findAll();
+		}
+
+		return null;
 	}
 
 	@Override
 	public List<Employee> deleteEmployee(Employee delEmp)
 	{
-		repo.delete(delEmp);
-		return repo.findAll();
+		Optional<Employee> employee = repo.findById(delEmp.getId());
+
+		if (employee.isPresent())
+		{
+			repo.delete(delEmp);
+			return repo.findAll();
+		}
+		return null;
 	}
 
 }
