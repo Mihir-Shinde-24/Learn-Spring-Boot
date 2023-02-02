@@ -1,17 +1,16 @@
 package com.itvedant.models;
 
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PostRemove;
-import jakarta.persistence.PostUpdate;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreRemove;
-import jakarta.persistence.PreUpdate;
 
 // POJO CLASS Employee - 
 //- Plain Old Java Object
@@ -32,10 +31,26 @@ public class Employee {
 
 	@Column
 	private String email;
-
+	
+	
+	
+	/* Hibernate Auditing Annotations */
+	
+	@Column
+	@CreationTimestamp
+	private Date creationDate;
+	
+	@Column
+	@UpdateTimestamp
+	private Date updationDate;
+	
+	
+	
+	
 	// No-Arg Constructor
 	public Employee(){	}
 	
+
 	// getters & Setters
 	public int getId()
 	{
@@ -67,54 +82,24 @@ public class Employee {
 		this.email = email;
 	}	
 	
-	
-	
-	/* Life Cycle Annotations */	
-	
-	@PrePersist
-	public void beforeSave()
+	public Date getCreationDate()
 	{
-		System.out.println("Before Saving...");
+		return creationDate;
 	}
 	
-	@PostPersist
-	public void afterSave()
+	public void setCreationDate(Date creationDate)
 	{
-		System.out.println("After Saving...");
+		this.creationDate = creationDate;
 	}
 	
-	@PreUpdate
-	public void beforeUpdate()
+	public Date getUpdationDate()
 	{
-		System.out.println("Before Updating...");
+		return updationDate;
 	}
 	
-	@PostUpdate
-	public void afterUpdate()
+	public void setUpdationDate(Date updationDate)
 	{
-		System.out.println("After Updating...");
+		this.updationDate = updationDate;
 	}
-	
-	@PreRemove
-	public void beforeDelete()
-	{
-		System.out.println("Before Deleting...");
-	}
-	
-	@PostRemove
-	public void afterDelete()
-	{
-		System.out.println("After Deleting...");
-	}
-
-/*
-	@PostLoad
-	public void afterFetch()
-	{
-		System.out.println("After Fetching...");
-	}
-	
-*/
-	
 
 }

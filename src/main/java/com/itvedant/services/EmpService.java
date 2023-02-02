@@ -47,6 +47,7 @@ public class EmpService implements Services {
 
 		if (employee.isPresent())
 		{
+			newEmp.setCreationDate(employee.get().getCreationDate());
 			repo.save(newEmp);
 			return repo.findAll();
 		}
