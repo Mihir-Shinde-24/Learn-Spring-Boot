@@ -5,6 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostRemove;
+import jakarta.persistence.PostUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreRemove;
+import jakarta.persistence.PreUpdate;
 
 // POJO CLASS Employee - 
 //- Plain Old Java Object
@@ -58,6 +65,56 @@ public class Employee {
 	public void setEmail(String email)
 	{
 		this.email = email;
+	}	
+	
+	
+	
+	/* Life Cycle Annotations */	
+	
+	@PrePersist
+	public void beforeSave()
+	{
+		System.out.println("Before Saving...");
 	}
+	
+	@PostPersist
+	public void afterSave()
+	{
+		System.out.println("After Saving...");
+	}
+	
+	@PreUpdate
+	public void beforeUpdate()
+	{
+		System.out.println("Before Updating...");
+	}
+	
+	@PostUpdate
+	public void afterUpdate()
+	{
+		System.out.println("After Updating...");
+	}
+	
+	@PreRemove
+	public void beforeDelete()
+	{
+		System.out.println("Before Deleting...");
+	}
+	
+	@PostRemove
+	public void afterDelete()
+	{
+		System.out.println("After Deleting...");
+	}
+
+/*
+	@PostLoad
+	public void afterFetch()
+	{
+		System.out.println("After Fetching...");
+	}
+	
+*/
+	
 
 }
