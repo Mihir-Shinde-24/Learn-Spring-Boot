@@ -1,76 +1,93 @@
 package com.itvedant.controllers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itvedant.models.Employee;
+import com.itvedant.services.Services;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class EmpController {
 
-	// Using ArrayList as a Resource instead of DB
-	List<Employee> employees = new ArrayList<>();
+	@Autowired
+	Services service;
 
-	public EmpController()
-	{
-		// Added some sample employees..
-		employees.add(new Employee(1, "Mihir", "mihir2403@gmail.com"));
-		employees.add(new Employee(2, "Harry", "harry2403@gmail.com"));
-	}
-
-	// 1. Get all the employees in Response Body
+	// 1. Fetch Employees
 	@GetMapping("/getemp")
-	public List<Employee> getEmployees()
+	public ResponseEntity<List<Employee>> getEmployees()
 	{
-		return this.employees;
+		List<Employee> employees = service.getEmployees();
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(employees);
 	}
 
-	// 2. To Add a new employee
+	// 2. Add Employee
 	@PostMapping("/addemp")
-	public List<Employee> addEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> addEmployee(@RequestBody @Valid Employee newEmp)
 	{
-		employees.add(newEmp);
-		return this.employees;
+		List<Employee> employees = service.addEmployee(newEmp);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
-	// 3. To Update details of a particular Employee
+	// 3. Update Employee
 	@PutMapping("/updateemp")
-	public List<Employee> updateEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody @Valid Employee newEmp)
 	{
-		for (int i = 0; i < employees.size(); i++)
-		{
-			Employee curEmployee = employees.get(i);
-
-			if (curEmployee.equals(newEmp))
-			{
-				curEmployee.setFirstName(newEmp.getFirstName());
-				curEmployee.setEmail(newEmp.getEmail());
-			}
-		}
-
-		return this.employees;
+		List<Employee> employees = service.updateEmployee(newEmp);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
-	// Delete an Employee
-
-	@DeleteMapping("/deleteemp")
-	public List<Employee> deleteEmployee(@RequestBody Employee delEmp)
+	// 4. Delete Employee
+	@DeleteMapping("/deleteemp/{id}")
+	public ResponseEntity<List<Employee>> deleteEmployee(@PathVariable("id") int id)
 	{
-		for (int i = 0; i < employees.size(); i++)
-		{
-			Employee curEmployee = employees.get(i);
-			if (curEmployee.equals(delEmp))
-			{
-				employees.remove(i);
-			}
-		}
-		return this.employees;
+		List<Employee> employees = service.deleteEmployee(id);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
+	/* Custom Operations */
+
+	// 1. Find Employee by id
+	@GetMapping("/findbyid/{id}")
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id)
+	{
+		Employee employee = service.getEmployeeById(id);
+		return ResponseEntity.status(employee != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employee);
+	}
+
+	// 2. Find Employee by firstName
+	@GetMapping("/findbyfirstname/{firstname}")
+	public ResponseEntity<List<Employee>> getEmployeesByFirstName(@PathVariable("firstname") String firstName)
+	{
+		List<Employee> employees = service.getEmployeesByFirstName(firstName);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
+
+	// 3. Find Employee by firstName & email using Query Parameter
+	@GetMapping("/findbyfnameandemail")
+	public ResponseEntity<List<Employee>> getEmployeesByFirstNameAndEmail(@RequestParam("firstName") String firstName,
+			@RequestParam("email") String email)
+	{
+		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName, email);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
+	
 }
