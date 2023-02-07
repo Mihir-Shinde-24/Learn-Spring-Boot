@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itvedant.models.Employee;
 import com.itvedant.services.Services;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class EmpController {
 
@@ -33,7 +35,7 @@ public class EmpController {
 
 	// 2. Add Employee
 	@PostMapping("/addemp")
-	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> addEmployee(@RequestBody @Valid Employee newEmp)
 	{
 		List<Employee> employees = service.addEmployee(newEmp);			
 		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
@@ -41,17 +43,17 @@ public class EmpController {
 
 	// 3. Update Employee
 	@PutMapping("/updateemp")
-	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee newEmp)
+	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody @Valid Employee newEmp)
 	{
 		 List<Employee> employees = service.updateEmployee(newEmp);
 		 return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
 	// 4. Delete Employee
-	@DeleteMapping("/deleteemp")
-	public ResponseEntity<List<Employee>> deleteEmployee(@RequestBody Employee delEmp)
+	@DeleteMapping("/deleteemp/{id}")
+	public ResponseEntity<List<Employee>> deleteEmployee(@PathVariable("id") int id)
 	{
-		List<Employee> employees = service.deleteEmployee(delEmp);
+		List<Employee> employees = service.deleteEmployee(id);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 	
@@ -82,5 +84,7 @@ public class EmpController {
 		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName,email);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
+	
+	
 
 }

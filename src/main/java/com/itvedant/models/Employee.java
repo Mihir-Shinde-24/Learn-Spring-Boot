@@ -4,13 +4,15 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 // POJO CLASS Employee - 
 //- Plain Old Java Object
@@ -27,10 +29,16 @@ public class Employee {
 	private int id;
 
 	@Column
+	@NotBlank(message = "Invalid Name")
 	private String firstName;
 
 	@Column
+	@Email(message = "Please Enter a Valid Email")
 	private String email;
+	
+	@Column
+	@Min(value = 5000 , message = "Salary should be greater than or equal to 5000")
+	private int salary;
 	
 	
 	
@@ -100,6 +108,16 @@ public class Employee {
 	public void setUpdationDate(Date updationDate)
 	{
 		this.updationDate = updationDate;
+	}
+	
+	public int getSalary()
+	{
+		return salary;
+	}
+
+	public void setSalary(int salary)
+	{
+		this.salary = salary;
 	}
 
 }

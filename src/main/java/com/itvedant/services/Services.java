@@ -16,7 +16,7 @@ public interface Services {
 	public List<Employee> updateEmployee(Employee newEmp);
 
 	// 4. Delete Employee
-	public List<Employee> deleteEmployee(Employee delEmp);
+	public List<Employee> deleteEmployee(int id);
 
 	
 	

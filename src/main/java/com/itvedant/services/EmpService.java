@@ -56,13 +56,13 @@ public class EmpService implements Services {
 	}
 
 	@Override
-	public List<Employee> deleteEmployee(Employee delEmp)
+	public List<Employee> deleteEmployee(int id)
 	{
-		Optional<Employee> employee = repo.findById(delEmp.getId());
+		Optional<Employee> employee = repo.findById(id);
 
 		if (employee.isPresent())
 		{
-			repo.delete(delEmp);
+			repo.delete(employee.get());
 			return repo.findAll();
 		}
 		return null;
