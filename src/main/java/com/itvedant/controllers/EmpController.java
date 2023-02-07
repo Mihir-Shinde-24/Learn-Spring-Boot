@@ -90,29 +90,4 @@ public class EmpController {
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 	
-	/* Exceptions */
-	
-	/*
-      1. getBindingResult() : BindingResult holds the result of a validation and binding and contains
-	  errors that may have occurred.
-	  2. getFieldErrors() : Returns a List of all Field errors
-	
-	 */
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String,String> methodArgumentNotValidException(MethodArgumentNotValidException exception)
-	{
-		Map<String,String> errMap = new HashMap<>();
-		
-		exception
-			.getBindingResult()
-				.getFieldErrors()
-					.forEach(err -> errMap.put( err.getField() , err.getDefaultMessage() ));
-		
-		return errMap;
-	}
-	
-	
-
 }
