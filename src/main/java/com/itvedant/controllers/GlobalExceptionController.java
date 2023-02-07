@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
    Exception Handling 
    -------------------
    
-      1. getBindingResult() : BindingResult holds the result of a validation and binding and contains
+  	1] getBindingResult() : BindingResult holds the result of a validation and binding and contains
 	  errors that may have occurred.
-	  2. getFieldErrors() : Returns a List of all Field errors
+	2] getFieldErrors() : Returns a List of all Field errors
 	
 */
 
