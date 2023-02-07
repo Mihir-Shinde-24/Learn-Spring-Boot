@@ -1,17 +1,23 @@
 package com.itvedant.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itvedant.models.Employee;
@@ -29,24 +35,24 @@ public class EmpController {
 	@GetMapping("/getemp")
 	public ResponseEntity<List<Employee>> getEmployees()
 	{
-		List<Employee> employees = service.getEmployees();			
-		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.NOT_FOUND).body(employees);
+		List<Employee> employees = service.getEmployees();
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(employees);
 	}
 
 	// 2. Add Employee
 	@PostMapping("/addemp")
 	public ResponseEntity<List<Employee>> addEmployee(@RequestBody @Valid Employee newEmp)
 	{
-		List<Employee> employees = service.addEmployee(newEmp);			
-		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+		List<Employee> employees = service.addEmployee(newEmp);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
 	// 3. Update Employee
 	@PutMapping("/updateemp")
 	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody @Valid Employee newEmp)
 	{
-		 List<Employee> employees = service.updateEmployee(newEmp);
-		 return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+		List<Employee> employees = service.updateEmployee(newEmp);
+		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
 
 	// 4. Delete Employee
@@ -56,11 +62,9 @@ public class EmpController {
 		List<Employee> employees = service.deleteEmployee(id);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
-	
-	
-	
+
 	/* Custom Operations */
-	
+
 	// 1. Find Employee by id
 	@GetMapping("/findbyid/{id}")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id)
@@ -68,7 +72,7 @@ public class EmpController {
 		Employee employee = service.getEmployeeById(id);
 		return ResponseEntity.status(employee != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employee);
 	}
-	
+
 	// 2. Find Employee by firstName
 	@GetMapping("/findbyfirstname/{firstname}")
 	public ResponseEntity<List<Employee>> getEmployeesByFirstName(@PathVariable("firstname") String firstName)
@@ -76,13 +80,37 @@ public class EmpController {
 		List<Employee> employees = service.getEmployeesByFirstName(firstName);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
 	}
-	
+
 	// 3. Find Employee by firstName & email using Query Parameter
 	@GetMapping("/findbyfnameandemail")
-	public ResponseEntity<List<Employee>> getEmployeesByFirstNameAndEmail(@RequestParam("firstName") String firstName, @RequestParam("email") String email)
+	public ResponseEntity<List<Employee>> getEmployeesByFirstNameAndEmail(@RequestParam("firstName") String firstName,
+			@RequestParam("email") String email)
 	{
-		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName,email);
+		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName, email);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
+	
+	/* Exceptions */
+	
+	/*
+      1. getBindingResult() : BindingResult holds the result of a validation and binding and contains
+	  errors that may have occurred.
+	  2. getFieldErrors() : Returns a List of all Field errors
+	
+	 */
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String,String> methodArgumentNotValidException(MethodArgumentNotValidException exception)
+	{
+		Map<String,String> errMap = new HashMap<>();
+		
+		exception
+			.getBindingResult()
+				.getFieldErrors()
+					.forEach(err -> errMap.put( err.getField() , err.getDefaultMessage() ));
+		
+		return errMap;
 	}
 	
 	
