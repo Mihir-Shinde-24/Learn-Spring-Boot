@@ -31,13 +31,9 @@ public class EmpService implements Services {
 	@Override
 	public List<Employee> addEmployee(Employee newEmp)
 	{
-		if (newEmp.getFirstName() != null || newEmp.getEmail() != null)
-		{
-			repo.save(newEmp);
-			return repo.findAll();
-		}
+		repo.save(newEmp);
+		return repo.findAll();
 
-		return null;
 	}
 
 	@Override

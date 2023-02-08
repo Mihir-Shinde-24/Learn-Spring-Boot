@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 // POJO CLASS Employee - 
 //- Plain Old Java Object
@@ -23,6 +24,8 @@ import jakarta.validation.constraints.NotBlank;
 public class Employee {
 
 	// fields
+	
+	/* Using SB Validations Annotations */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
@@ -40,6 +43,11 @@ public class Employee {
 	@Min(value = 5000 , message = "Salary should be greater than or equal to 5000")
 	private int salary;
 	
+	
+	/* Using RegEx for Validation */
+	@Column
+	@Pattern(regexp = "\\+91[6-9][0-9]{9}|0[6-9][0-9]{9}",message = "Invalid Mobile Number")
+	private String mobile;	
 	
 	
 	/* Hibernate Auditing Annotations */
@@ -119,5 +127,19 @@ public class Employee {
 	{
 		this.salary = salary;
 	}
+
+
+	public String getMobile()
+	{
+		return mobile;
+	}
+
+
+	public void setMobile(String mobile)
+	{
+		this.mobile = mobile;
+	}
+	
+	
 
 }
