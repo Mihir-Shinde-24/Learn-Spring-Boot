@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itvedant.custom_exceptions.EmployeeNotFoundException;
 import com.itvedant.models.Employee;
 import com.itvedant.repositories.EmpRepository;
 
@@ -25,19 +26,14 @@ public class EmpService implements Services {
 		{
 			return employees;
 		}
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 	@Override
 	public List<Employee> addEmployee(Employee newEmp)
 	{
-		if (newEmp.getFirstName() != null || newEmp.getEmail() != null)
-		{
-			repo.save(newEmp);
-			return repo.findAll();
-		}
-
-		return null;
+		repo.save(newEmp);
+		return repo.findAll();
 	}
 
 	@Override
@@ -52,7 +48,7 @@ public class EmpService implements Services {
 			return repo.findAll();
 		}
 
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 	@Override
@@ -65,7 +61,7 @@ public class EmpService implements Services {
 			repo.delete(employee.get());
 			return repo.findAll();
 		}
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 	@Override
@@ -78,7 +74,7 @@ public class EmpService implements Services {
 			return employee.get();
 		}
 
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 	@Override
@@ -90,7 +86,7 @@ public class EmpService implements Services {
 		{
 			return employees;
 		}
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 	@Override
@@ -102,7 +98,7 @@ public class EmpService implements Services {
 		{
 			return employees;
 		}
-		return null;
+		throw new EmployeeNotFoundException("Employee doesn't exist");
 	}
 
 }

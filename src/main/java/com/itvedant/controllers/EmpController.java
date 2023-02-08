@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itvedant.custom_exceptions.EmployeeNotFoundException;
 import com.itvedant.models.Employee;
 import com.itvedant.services.Services;
 
@@ -88,6 +89,17 @@ public class EmpController {
 	{
 		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName, email);
 		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+	}
+	
+	
+	
+	/* Custom Exception Handling related to Employees Only */
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(EmployeeNotFoundException.class)
+	public Map<String, String> employeeNotFoundException(EmployeeNotFoundException e)
+	{
+		return new HashMap<>(Map.of("Error",e.getMessage()));
 	}
 
 	
