@@ -24,9 +24,4 @@ public class MyController {
 		return "This is HOMEPAGE for Any User Page";
 	}
 	
-	@GetMapping("/extra")
-	public String getExtra()
-	{
-		return "This is EXTRa Page";
-	}
 }
