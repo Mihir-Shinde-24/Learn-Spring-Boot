@@ -18,7 +18,7 @@ import com.itvedant.services.CustomUserService;
 @RestController
 public class CustomUserController {
 
-	/* Dependecies */
+	/* Dependencies */
 
 	@Autowired
 	PasswordEncoder encoder;
