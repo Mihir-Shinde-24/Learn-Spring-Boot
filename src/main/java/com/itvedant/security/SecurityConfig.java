@@ -40,15 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		http.csrf().disable()
-//		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//			.and()
 			.authorizeRequests()			
 			.antMatchers(HttpMethod.POST ,"/register").permitAll()
 			.antMatchers(HttpMethod.GET , "/home").permitAll()
 			.antMatchers("/user").hasAnyRole("ADMIN","USER")
 			.antMatchers("/admin").hasRole("ADMIN")
 			.and()
-			.formLogin();
+			.httpBasic();
 		
 	}
 }
