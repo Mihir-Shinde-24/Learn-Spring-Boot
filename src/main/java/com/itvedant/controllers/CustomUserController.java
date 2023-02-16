@@ -1,7 +1,5 @@
 package com.itvedant.controllers;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.PrePersist;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
