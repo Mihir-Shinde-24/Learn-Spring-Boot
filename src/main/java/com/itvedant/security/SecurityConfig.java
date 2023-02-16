@@ -1,52 +1,37 @@
 package com.itvedant.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-	@Autowired
-	UserDetailsService service;
 	
-	@Bean
-	PasswordEncoder encoder()
-	{
-		return new BCryptPasswordEncoder();
-	}
+
+	/* We can disable csrf like this */
 	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception
-	{
-		// For CustomUser based Authentication		
-		auth
-			.userDetailsService(service)
-			.passwordEncoder(encoder());
-	}
-		
-	// For Role Based Access to Pages
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception
+//	{
+//		http.csrf().disable();
+//	}
+	 
+	/* But If we disable csrf , the user as well as attacker both will be able to send request*/
+	/* Thus, our requests should always have csrf protection. So we will not disable it */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
-		http.csrf().disable()
-			.authorizeRequests()			
-			.antMatchers(HttpMethod.POST ,"/register").permitAll()
-			.antMatchers(HttpMethod.GET , "/home").permitAll()
-			.antMatchers("/user").hasAnyRole("ADMIN","USER")
-			.antMatchers("/admin").hasRole("ADMIN")
+		http
+			.authorizeRequests()
+			.anyRequest()
+			.authenticated()
 			.and()
-			.httpBasic();
-		
+			.formLogin();
 	}
+	
+	/*Either we can use above implementation or don't override the method */
+	
+	
 }

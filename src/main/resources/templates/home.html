@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+</head>
+<body>
+	<h2>CSRF Page</h2>
+	<form action="/savedata" method="POST">
+		<input type="text" required name="userName"><br>
+
+		<!-- For CSRF Protection -->
+		<input 	type="hidden" 
+				th:name="${_csrf.parameterName}"
+				th:value=${_csrf.token}> 
+		
+		<input type="submit">
+	</form>
+</body>
+</html>

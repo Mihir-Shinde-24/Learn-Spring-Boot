@@ -1,27 +1,22 @@
 package com.itvedant.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
-@RestController
+@Controller
 public class MyController {
 
-	@GetMapping("/admin")
-	public String getAdmin()
+	@GetMapping({"/","/home"})
+	public String homePage()
 	{
-		return "This is Admin Page";
+		return "home.html";
 	}
 	
-	@GetMapping("/user")
-	public String getLoggedInUser()
+	@PostMapping("/savedata")
+	public String saveData(String userName)
 	{
-		return "This is User Page";
+		System.out.println(userName);
+		return "home.html";
 	}
-	
-	@GetMapping("/home")
-	public String getHome()
-	{
-		return "This is HOMEPAGE for Any User Page";
-	}
-	
 }
