@@ -6,22 +6,15 @@
 </head>
 <body>
 
-	<div th:object="${student}">
-		<h2>ID: <span th:text="*{id}">0</span> </h2>
-		<h2>Name: <span th:text="*{name}">abc</span> </h2>
-		<h2>Marks: <span th:text="*{marks}">000</span> </h2>
-		<h2>Email: <span th:text="*{email}">abc@gmail.com</span> </h2>
-		<hr>	
-	</div>
-	
-	<!-- Alternative 
-	
-		<h2>ID: <span th:text="${student.id}">0</span> </h2>
-		<h2>Name: <span th:text="${student.name}">abc</span> </h2>
-		<h2>Marks: <span th:text="${student.marks}">000</span> </h2>
-		<h2>Email: <span th:text="${student.email}">abc@gmail.com</span> </h2>
+	<!-- Thymeleaf For Each loop   -->
+	<div th:each=" st : ${students}"> 
+		ID: <span th:text="${st.id}">0</span><br>
+		Name: <span th:text="${st.name}">abc</span><br>
+		Marks: <span th:text="${st.marks}">000</span><br>
+		Email: <span th:text="${st.email}">abc@gmail.com</span><br>
 		<hr>
-	-->
+	</div>
+
 
 </body>
 </html>

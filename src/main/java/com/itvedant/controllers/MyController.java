@@ -1,6 +1,7 @@
 package com.itvedant.controllers;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,12 @@ public class MyController {
 	@GetMapping({ "/", "/home" })
 	public String home(Model model)
 	{
-		Student s = new Student(1, "Ram", 45, "ram@gmail.com");
+		List<Student> students = new ArrayList<>();		
+		students.add(new Student(1, "Ram", 90, "ram@gmail.com"));
+		students.add(new Student(2, "Sam", 75, "sam@gmail.com"));
+		students.add(new Student(3, "Tom", 80, "tom@gmail.com"));
 
-		model.addAttribute("student", s);
-
+		model.addAttribute("students", students);
 		return "home.html";
 	}
 
