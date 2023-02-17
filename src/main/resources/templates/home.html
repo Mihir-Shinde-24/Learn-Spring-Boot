@@ -6,14 +6,8 @@
 </head>
 <body>
 
-	<!-- Thymeleaf For Each loop   -->
-	<div th:each=" st : ${students}"> 
-		ID: <span th:text="${st.id}">0</span><br>
-		Name: <span th:text="${st.name}">abc</span><br>
-		Marks: <span th:text="${st.marks}">000</span><br>
-		Email: <span th:text="${st.email}">abc@gmail.com</span><br>
-		<hr>
-	</div>
+<h3>Hello <span th:text="${name}">name</span></h3>
+ <a th:href="@{/about}">Go to About Page</a>
 
 
 </body>
