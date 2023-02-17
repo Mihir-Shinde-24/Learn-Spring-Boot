@@ -2,27 +2,26 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>MyApp</title>
+<title>Home Page</title>
 </head>
 <body>
-	<button onclick="getData()">MyApp</button>
-	
-	<script defer> 
-		
-		const getData = async () => {
-			
-			const URL = "http://localhost:8080/accessresource";
-			
-			const response = await fetch( URL, {
-				method : 'POST',
-				body : null, 	// null because we are not sending any data
-			}); 
-			
-			const data = await response.text();
 
-			alert(data);
-		}
-		
-	</script>
+	<div th:object="${student}">
+		<h2>ID: <span th:text="*{id}">0</span> </h2>
+		<h2>Name: <span th:text="*{name}">abc</span> </h2>
+		<h2>Marks: <span th:text="*{marks}">000</span> </h2>
+		<h2>Email: <span th:text="*{email}">abc@gmail.com</span> </h2>
+		<hr>	
+	</div>
+	
+	<!-- Alternative 
+	
+		<h2>ID: <span th:text="${student.id}">0</span> </h2>
+		<h2>Name: <span th:text="${student.name}">abc</span> </h2>
+		<h2>Marks: <span th:text="${student.marks}">000</span> </h2>
+		<h2>Email: <span th:text="${student.email}">abc@gmail.com</span> </h2>
+		<hr>
+	-->
+
 </body>
 </html>
