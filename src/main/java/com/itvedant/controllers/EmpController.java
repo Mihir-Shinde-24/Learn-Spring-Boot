@@ -5,82 +5,66 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.itvedant.models.Employee;
 import com.itvedant.services.Services;
 
-@RestController
+@Controller
 public class EmpController {
 
 	@Autowired
 	Services service;
-
-	// 1. Fetch Employees
-	@GetMapping("/getemp")
-	public ResponseEntity<List<Employee>> getEmployees()
+	
+	/* Webpage Mappings */	
+	
+	@GetMapping({"/","/home","/index"})
+	public String index(Model model)
 	{
-		List<Employee> employees = service.getEmployees();			
-		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.NOT_FOUND).body(employees);
+		List<Employee> employees = service.getEmployees();	
+		model.addAttribute("employees", employees);
+		return "index.html";
+	}
+	
+	@GetMapping("/register")
+	public String register(Model model)
+	{
+		Employee e = new Employee();			
+		model.addAttribute("employee",e);	// adding empty model for two way data binding
+		return "register.html";
 	}
 
-	// 2. Add Employee
+	/* CRUD Operation Mappings */
+
+	// 1. Add Employee
 	@PostMapping("/addemp")
-	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee newEmp)
+	public String addEmployee( @ModelAttribute("employee") Employee newEmp)
 	{
-		List<Employee> employees = service.addEmployee(newEmp);			
-		return ResponseEntity.status(employees != null? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+		service.addEmployee(newEmp);	
+		return "redirect:/index";
 	}
 
-	// 3. Update Employee
-	@PutMapping("/updateemp")
-	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee newEmp)
-	{
-		 List<Employee> employees = service.updateEmployee(newEmp);
-		 return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
-	}
-
-	// 4. Delete Employee
-	@DeleteMapping("/deleteemp")
-	public ResponseEntity<List<Employee>> deleteEmployee(@RequestBody Employee delEmp)
-	{
-		List<Employee> employees = service.deleteEmployee(delEmp);
-		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
-	}
-	
-	
-	
-	/* Custom Operations */
-	
-	// 1. Find Employee by id
-	@GetMapping("/findbyid/{id}")
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") int id)
-	{
-		Employee employee = service.getEmployeeById(id);
-		return ResponseEntity.status(employee != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employee);
-	}
-	
-	// 2. Find Employee by firstName
-	@GetMapping("/findbyfirstname/{firstname}")
-	public ResponseEntity<List<Employee>> getEmployeesByFirstName(@PathVariable("firstname") String firstName)
-	{
-		List<Employee> employees = service.getEmployeesByFirstName(firstName);
-		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
-	}
-	
-	// 3. Find Employee by firstName & email using Query Parameter
-	@GetMapping("/findbyfnameandemail")
-	public ResponseEntity<List<Employee>> getEmployeesByFirstNameAndEmail(@RequestParam("firstName") String firstName, @RequestParam("email") String email)
-	{
-		List<Employee> employees = service.getEmployeesByFirstNameAndEmail(firstName,email);
-		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
-	}
+//	// 3. Update Employee
+//	@PutMapping("/updateemp")
+//	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee newEmp)
+//	{
+//		 List<Employee> employees = service.updateEmployee(newEmp);
+//		 return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+//	}
+//
+//	// 4. Delete Employee
+//	@DeleteMapping("/deleteemp")
+//	public ResponseEntity<List<Employee>> deleteEmployee(@RequestBody Employee delEmp)
+//	{
+//		List<Employee> employees = service.deleteEmployee(delEmp);
+//		return ResponseEntity.status(employees != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(employees);
+//	}
 
 }

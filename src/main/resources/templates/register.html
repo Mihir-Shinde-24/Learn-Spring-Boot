@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Register Page</title>
+</head>
+<body>
+
+	<h2>Register Page</h2>
+
+	<form th:action="@{/addemp}" method="post">
+		Name: <input type="text" th:field="${employee.firstName}" required><br>
+		Email:  <input type="email" th:field="${employee.email}" required><br>
+		<button type="submit">Add Employee</button>
+	</form>
+
+</body>
+</html>
