@@ -16,7 +16,13 @@ public interface Services {
 	public List<Employee> updateEmployee(Employee newEmp);
 
 	// 4. Delete Employee
-	public List<Employee> deleteEmployee(Employee delEmp);
+	public void deleteEmployee(int id);
+	
+	
+	/* Custom Methods */
+	// 1. Find By Id
+	public Employee getEmployeeById(int id);
+
 
 	
 }

@@ -3,6 +3,18 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home Page</title>
+<style>
+a {
+	color: white;
+	text-decoration: none;
+}
+
+button {
+	cursor: pointer;
+	background: cornflowerblue;
+	color: white;
+}
+</style>
 </head>
 <body>
 	<h2>Home Page</h2>
@@ -12,20 +24,37 @@
 				<th>ID</th>
 				<th>Name</th>
 				<th>Email</th>
+				<th>Update</th>
+				<th>Delete</th>
+
 			</tr>
 		</thead>
 		<tbody>
-		
+
 			<tr th:each="emp : ${employees}">
 				<th th:text="${emp.id}">1</th>
 				<th th:text="${emp.firstName}">ram</th>
 				<th th:text="${emp.email}">ram@gmail.com</th>
+				<th>
+					<button>
+						<a th:href="@{/update/}+${emp.id}">Update</a>
+					</button>
+				</th>
+
+				<th>
+
+					<form th:action="@{/delete/}+${emp.id}" th:method="delete">
+						<button type="submit">Delete</button>
+					</form>
+				</th>
 			</tr>
-			
+
 		</tbody>
 	</table>
-	
-	<h4><a th:href="@{/register}">Add Employee</a></h4>
+
+	<h4>
+		<a th:href="@{/register}">Add Employee</a>
+	</h4>
 
 </body>
 </html>
