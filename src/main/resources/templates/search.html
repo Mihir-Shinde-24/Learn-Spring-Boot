@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Search Page</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+</head>
+<body>
+<div th:replace="navbar.html :: navbar"></div>
+	<center>
+		<div class="container">
+		<h2>Search an Employee!</h2>
+		<div class="search-form">
+			<form th:action="@{/searchemployees}" th:method="GET">
+				<input type="text" th:field="${search.name}">
+				<button type="submit">Search</button>
+			</form>
+		</div>
+
+		<table border="2" th:if="${employees} != null" cellpadding="5px">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Email</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="emp : ${employees}">
+					<td th:text="${emp.id}">1</td>
+					<td th:text="${emp.firstName}">ram</td>
+					<td th:text="${emp.email}">ram@gmail.com</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 th:if="${employees} == null and ${search.name} != ''" >Employee not found!</h3>
+	</div>
+	</center>
+</body>
+</html>

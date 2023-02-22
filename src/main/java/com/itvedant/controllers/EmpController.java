@@ -3,8 +3,6 @@ package com.itvedant.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.itvedant.models.Employee;
+import com.itvedant.models.Search;
 import com.itvedant.services.Services;
 
 @Controller
@@ -52,6 +50,19 @@ public class EmpController {
 		model.addAttribute("employee",employee);
 		return "update.html";
 	}
+	
+	// 4. Search Page
+	@GetMapping("/search")
+	public String searchPage(Model model)
+	{
+		Search search = new Search("");		
+		model.addAttribute("search", search );
+		
+		return "search.html";
+	}
+	
+		
+	
 	/* CRUD Operation Mappings */
 
 	// 1. Add Employee
@@ -78,4 +89,16 @@ public class EmpController {
 		return "redirect:/index"; 
 	}
 
+	
+	// 4. Search Employee by name
+	@GetMapping("/searchemployees")
+	public String getEmployeesByName(@ModelAttribute("search") Search search, Model model)
+	{
+		String name = search.getName();		
+		List<Employee> employees = service.getEmployeesByFirstName(name);
+		System.out.println(employees);
+		model.addAttribute("employees",employees);
+		
+		return "search.html";
+	}
 }

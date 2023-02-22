@@ -1,60 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="ISO-8859-1">
 <title>Home Page</title>
-<style>
-a {
-	color: white;
-	text-decoration: none;
-}
+<link rel="stylesheet" th:href="@{/css/style.css}" />
 
-button {
-	cursor: pointer;
-	background: cornflowerblue;
-	color: white;
-}
-</style>
 </head>
 <body>
-	<h2>Home Page</h2>
-	<table border="1">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Update</th>
-				<th>Delete</th>
+	<div th:replace="navbar.html :: navbar"></div>
+	<div class="container">
+		<h2>Home Page</h2>
+		<table border="1" cellpadding="5px">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Update</th>
+					<th>Delete</th>
 
-			</tr>
-		</thead>
-		<tbody>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="emp : ${employees}">
+					<td th:text="${emp.id}">1</td>
+					<td th:text="${emp.firstName}">ram</td>
+					<td th:text="${emp.email}">ram@gmail.com</td>
+					<td><a th:href="@{/update/}+${emp.id}">
+							<button class="btn-green">Update</button>
+					</a></td>
 
-			<tr th:each="emp : ${employees}">
-				<th th:text="${emp.id}">1</th>
-				<th th:text="${emp.firstName}">ram</th>
-				<th th:text="${emp.email}">ram@gmail.com</th>
-				<th>
-					<button>
-						<a th:href="@{/update/}+${emp.id}">Update</a>
-					</button>
-				</th>
+					<td>
 
-				<th>
+						<form th:action="@{/delete/}+${emp.id}" th:method="delete">
+							<button class="btn-red" type="submit">Delete</button>
+						</form>
+					</td>
+				</tr>
 
-					<form th:action="@{/delete/}+${emp.id}" th:method="delete">
-						<button type="submit">Delete</button>
-					</form>
-				</th>
-			</tr>
-
-		</tbody>
-	</table>
-
-	<h4>
-		<a th:href="@{/register}">Add Employee</a>
-	</h4>
+			</tbody>
+		</table>
+		</center>
 
 </body>
 </html>

@@ -3,16 +3,22 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Register Page</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
+	<div th:replace="navbar.html :: navbar"></div>
+	<center>
+		<div class="container">
+			<div class="form-wrapper">
+				<h2>Register Page</h2>
 
-	<h2>Register Page</h2>
-
-	<form th:action="@{/addemp}" method="post">
-		Name: <input type="text" th:field="${employee.firstName}" required><br>
-		Email:  <input type="email" th:field="${employee.email}" required><br>
-		<button type="submit">Add Employee</button>
-	</form>
-
+				<form th:action="@{/addemp}" method="post">
+					Name: <input type="text" th:field="${employee.firstName}" required><br>
+					Email: <input type="email" th:field="${employee.email}" required><br>
+					<button type="submit" class="btn">Add Employee</button>
+				</form>
+			</div>
+		</div>
+	</center>
 </body>
 </html>

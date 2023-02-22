@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>navbar</title>
+</head>
+<body>
+
+	<div th:fragment="navbar" class="navbar">
+		<span>Employees</span>
+		<ul>
+			<li><a th:href="@{/}">Home</a></li>
+			<li><a th:href="@{/register}">Register</a></li>
+			<li><a th:href="@{/search}">Search</a></li>
+		</ul>
+	</div>
+
+</body>
+</html>

@@ -68,4 +68,16 @@ public class EmpService implements Services {
 		return repo.findById(id).get();
 	}
 
+	@Override
+	public List<Employee> getEmployeesByFirstName(String firstName)
+	{
+		List<Employee> employees = repo.findAllByFirstName(firstName);
+		
+		if(!employees.isEmpty())
+		{
+			return employees;
+		}
+		return null;
+	}
+
 }

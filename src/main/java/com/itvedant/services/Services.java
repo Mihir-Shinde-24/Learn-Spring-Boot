@@ -22,6 +22,9 @@ public interface Services {
 	/* Custom Methods */
 	// 1. Find By Id
 	public Employee getEmployeeById(int id);
+	
+	// 2. Find All By Namme	
+	public List<Employee> getEmployeesByFirstName(String firstName);
 
 
 	

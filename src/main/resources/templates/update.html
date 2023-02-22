@@ -3,15 +3,21 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Update</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-<h2>Update Page</h2>
-
-	<form th:action="@{/updateemp/}+${employee.id}" th:method="put">
-		Name: <input type="text" th:field="${employee.firstName}" required><br>
-		Email:  <input type="email" th:field="${employee.email}" required><br>
-		<button type="submit">Update Employee</button>
-	</form>
-
+<div th:replace="navbar.html :: navbar"></div>
+	<center>
+	<div class="container">
+		<div class="form-wrapper">
+			<h2>Update Page</h2>
+			<form th:action="@{/updateemp/}+${employee.id}" th:method="put">
+				Name: <input type="text" th:field="${employee.firstName}" required><br>
+				Email: <input type="email" th:field="${employee.email}" required><br>
+				<button type="submit" class="btn">Update Employee</button>
+			</form>
+		</div>
+	</div>
+	</center>
 </body>
 </html>
