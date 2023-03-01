@@ -1,2 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
 
-<h2>Something went wrong..</h2>
+<h2>Something went Wrong!</h2>
+	<table>
+		<tbody>
+			<tr th:each="err : ${fieldErrors}">
+				<td th:text="${err.field}">Error</td>
+				<td th:text="${err.defaultMessage}">Error Description</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

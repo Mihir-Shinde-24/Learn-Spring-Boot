@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+
+<style>
+.error {
+	color: red;
+}
+</style>
+
+
+</head>
+<body>
+	<h2>Home page</h2>
+
+	<form th:action="@{/addemp}" th:method="post" th:object="${employee}">
+
+
+		ID:<input type="number" th:field="${employee.id}"><br>
+
+
+		NAME:<input type="text" th:field="${employee.name}">
+		<!--  For Displaying 1 Field Error -->
+		<ul>
+			<li th:each="err : ${#fields.errors('name')}" th:text="${err}"
+				class="error" />
+		</ul>
+
+
+		EMAIL:<input type="text" th:field="${employee.email}"><br>
+		SALARY:<input type="number" th:field="${employee.salary}"><br>
+
+
+
+		<!--  For Displaying all Errors -->
+		<ul th:if="${#fields.hasErrors('*')}">
+			<li th:each="err : ${#fields.errors('*')}" th:text="${err}"
+				class="error">Input is incorrect</li>
+		</ul>
+
+
+		<button type="submit">Submit</button>
+
+	</form>
+
+	<!--  For Displaying all Errors Outside form-->
+	<h4>All errors:</h4>
+	<ul>
+		<li th:each="err : ${#fields.errors('employee.*')}" th:text="${err}" />
+	</ul>
+
+
+</body>
+</html>

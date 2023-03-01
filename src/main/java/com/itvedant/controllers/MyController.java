@@ -1,32 +1,55 @@
 package com.itvedant.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.ArrayList;
+import java.util.List;
 
-@RestController
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.itvedant.models.Employee;
+
+@Controller
 public class MyController {
 
-	@GetMapping("/admin")
-	public String getAdmin()
+	List<Employee> allemp = new ArrayList<>();
+
+	@GetMapping({ "/", "/home" })
+	public String home(Model model)
 	{
-		return "This is Admin Page";
+
+		Employee employee = new Employee();
+		model.addAttribute("employee", employee);
+
+		return "home.html";
 	}
 	
-	@GetMapping("/user")
-	public String getLoggedInUser()
-	{
-		return "This is User Page";
-	}
 	
-	@GetMapping("/home")
-	public String getHome()
+
+	@PostMapping("/addemp")
+	public String addEmp(@ModelAttribute @Valid Employee employee, BindingResult bindingResult, Model model)
 	{
-		return "This is HOMEPAGE for Any User Page";
+		System.out.println(bindingResult.getFieldErrors());
+		
+		if (bindingResult.hasErrors())
+		{
+			model.addAttribute("employee", employee);			
+			return "home.html";
+		}
+		
+		allemp.add(employee);
+		System.out.println(allemp);
+
+		return "success.html";
 	}
+
+
 	
-	@GetMapping("/extra")
-	public String getExtra()
-	{
-		return "This is EXTRa Page";
-	}
+
+
 }
