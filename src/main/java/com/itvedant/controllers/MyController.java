@@ -1,55 +1,38 @@
 package com.itvedant.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import javax.validation.Valid;
-
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import com.itvedant.models.Employee;
 
 @Controller
 public class MyController {
 
-	List<Employee> allemp = new ArrayList<>();
-
-	@GetMapping({ "/", "/home" })
-	public String home(Model model)
+	/* 1. fixedRate */
+//	@Scheduled(fixedRate = 5000)
+//	public void getDate() throws InterruptedException
+//	{
+//		Thread.sleep(2000);
+//		System.out.println(new Date());
+//	}
+	
+	/* 2. fixedDelay */
+//	@Scheduled(fixedDelay = 5000, initialDelay = 10000L)
+//	public void getDate() throws InterruptedException
+//	{
+//		Thread.sleep(2000);
+//		System.out.println(new Date());
+//	}
+	
+	/* 3. Cron */
+	@Scheduled(cron = "*/2 * * * * *")
+	public void getDate() throws InterruptedException
 	{
-
-		Employee employee = new Employee();
-		model.addAttribute("employee", employee);
-
-		return "home.html";
+		System.out.println(new Date());
 	}
 	
 	
-
-	@PostMapping("/addemp")
-	public String addEmp(@ModelAttribute @Valid Employee employee, BindingResult bindingResult, Model model)
-	{
-		System.out.println(bindingResult.getFieldErrors());
-		
-		if (bindingResult.hasErrors())
-		{
-			model.addAttribute("employee", employee);			
-			return "home.html";
-		}
-		
-		allemp.add(employee);
-		System.out.println(allemp);
-
-		return "success.html";
-	}
-
-
 	
-
+	
 
 }
