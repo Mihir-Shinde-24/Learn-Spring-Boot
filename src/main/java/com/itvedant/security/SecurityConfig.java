@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -44,5 +45,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/admin").hasRole("ADMIN")
 			.and()
 			.formLogin();
+			
+		/* 1. When to create the session */	
+		http.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+		
+		
+		/* 2. Managing Number of Sessions */		
+		http.sessionManagement()
+			.maximumSessions(1)
+			.and()			
+			.invalidSessionUrl("/login");
+		
+		
+			
+		
 	}
 }
